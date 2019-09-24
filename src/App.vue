@@ -2,7 +2,7 @@
   <div id="app" class="small-container">
     <h1 id ="front-page" class="title">Last.FM Stat Displayer</h1>
     <InputComp @add:user="getUser"/>
-    <DisplayStatsComp :user="user" :error="error" :albums="albums"/>
+    <DisplayStatsComp :user="user" :error="error" :albums="albums" :recentTracks="recentTracks"/>
   </div>
 </template>
 
@@ -21,6 +21,7 @@ export default {
     return {
         user: '',
         albums: '',
+        recentTracks: '',
         error: {}
       }
     },
@@ -56,6 +57,22 @@ export default {
         .catch((error)=> {
           console.log(error.message)
           this.albums = null
+          this.error = error
+        })     
+      axios
+        .get('http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user='
+        +user
+        +'&api_key='
+        +process.env.VUE_APP_API_KEY
+        +'&format=json')
+        .then(response=> { 
+          console.log(response) 
+          this.recentTracks = response.data.recenttracks
+          console.log(this.recentTracks)
+        })
+        .catch((error)=> {
+          console.log(error.message)
+          this.recentTracks = null
           this.error = error
         })
     },

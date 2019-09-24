@@ -11,23 +11,28 @@
     </p>
     <section v-else>
       <table>
-        <tbody>
+        <div class="tile">
           <tr>
             <td>
-              <th><p id="username" v-html="user.name">{{ user.name }}</p>
-              <img id="picture" v-bind:src="user.image[2]['#text']"></th>
-                <th> <p>Playcount:</p>
-                 <p v-html="user.playcount"> {{ user.playcount }}</p></th>
-                  <th> Playcount:
-                 <p v-html="user.playcount"> {{ user.playcount }}</p></th>
+              <th>
+                <h1 id="username" class="title" v-html="user.name">{{ user.name }}</h1>
+                <img id="picture" v-bind:src="user.image[2]['#text']">
+              </th>
+              <th> 
+                <p id="playcount">Playcount: {{ user.playcount }}</p>
+              </th>
+              <th>
+                <p>Recently played:</p>
+                <p id="recently-played">{{recentTracks.track[0].artist['#text']}} - {{recentTracks.track[0].name}}</p>
+              </th>
             </td>
           </tr>
-        </tbody>
+        </div>
       </table>
-      <header><h1 class="title">Top albums</h1></header>
-      <table>
-        <p>1.<span v-html="albums[0].name"></span></p>
-      </table>
+      <header><h1 id="album-list" class="title">Top albums</h1></header>
+        <ol id="album-list" v-if="albums.length">
+          <li v-for="album in albums">{{album.artist.name}} - {{album.name}}</li>
+        </ol>`
     </section>
   </div>
 </template>
@@ -38,12 +43,23 @@ export default {
   props: {
     user: {},
     albums: {},
+    recentTracks: {},
     error: {}
   }
 }
 </script>
 
 <style scoped>
+  .title {
+    font-size: 17px;
+    padding-bottom: 5px;
+  }
+  #album-list {
+    text-align:justify;
+    flex-direction: column;
+  }
+  #playcount {
+  }
   #picture {
     border-radius: 50%;
   }
