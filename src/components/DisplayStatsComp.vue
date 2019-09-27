@@ -31,7 +31,11 @@
       </table>
       <header><h1 id="album-list" class="title">Top albums</h1></header>
         <ol id="album-list" v-if="albums.length">
-          <li v-for="album in albums">{{album.artist.name}} - {{album.name}}</li>
+          <li id="album-bar" v-for="album in albums"> 
+            <img id="album-img" v-bind:src="album.image[0]['#text']"> 
+              {{album.artist.name}} - {{album.name}}
+            <b-progress id="bar" type="is-danger" :value="40"></b-progress>
+          </li>
         </ol>`
     </section>
   </div>
@@ -52,16 +56,29 @@ export default {
 <style scoped>
   .title {
     font-size: 17px;
-    padding-bottom: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  #album-bar {
+    margin-bottom: 15px;
+  }
+  #bar {
+    position: relative;
   }
   #album-list {
-    text-align:justify;
-    flex-direction: column;
+    text-align: left;
+    flex-direction: relative;
+    position:relative;
   }
   #playcount {
   }
+  #album-playcount {
+    text-align: right;
+  }
   #picture {
     border-radius: 50%;
+    max-height: 150px;
+    max-width: 150px;
   }
   #username {
     text-align: center;

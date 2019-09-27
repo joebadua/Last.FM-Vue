@@ -1,12 +1,14 @@
-<template class="tile">
+<template>
   <form @submit.prevent="handleSubmit">
-    <section class="hero">
+    <section>
     <label>Check out your stats here: </label>
     </section>
-      <b-input @submit="runLoading" v-model.lazy="user" placeholder="Last.FM username">
-        <b-loading is-full-page="isFullPage" :active.sync="isLoading" :can-cancel="true"></b-loading>
-      </b-input>
+    <section>
+      <b-input v-model.lazy="user" placeholder="Last.FM username"></b-input>
+      <b-loading :is-full-page="isFullPage" :active.sync="isLoading" :can-cancel="true"></b-loading>
+      </section>
   </form>
+  
 </template> 
 
 <script>
@@ -23,17 +25,17 @@ export default {
     }
   },
   methods: {
-    handleSubmit(user) {
-      this.runLoading()
-      this.$emit('add:user', this.user)
-      this.user = ''
-    },
     runLoading() {
       this.isLoading = true;
       setTimeout(() => {
         this.isLoading = false;
-      }, 10 * 1000)
-    }
+      }, 10 * 100)
+    },
+    handleSubmit(user) {
+      this.runLoading();
+      this.$emit('add:user', this.user)
+      this.user = ''
+    }    
   },
 }
 </script>

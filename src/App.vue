@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="small-container">
     <h1 id ="front-page" class="title">Last.FM Stat Displayer</h1>
-    <InputComp @add:user="getUser"/>
+    <InputComp class="subtile" @add:user="getUser"/>
     <DisplayStatsComp :user="user" :error="error" :albums="albums" :recentTracks="recentTracks"/>
   </div>
 </template>
@@ -29,6 +29,22 @@ export default {
     async getUser(user) {
       console.log('inside get user ' + user)
       axios
+        .get('http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user='
+        +user
+        +'&api_key='
+        +process.env.VUE_APP_API_KEY
+        +'&format=json')
+        .then(response=> { 
+          console.log(response) 
+          this.recentTracks = response.data.recenttracks
+          console.log(this.recentTracks)
+        })
+        .catch((error)=> {
+          console.log(error.message)
+          this.recentTracks = null
+          this.error = error
+      })
+      axios
         .get('http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user='
         +user
         +'&api_key='
@@ -42,7 +58,7 @@ export default {
           console.log(error.message)
           this.user = null
           this.error = error
-        })
+      })
       axios
         .get('http://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user='
         +user
@@ -58,23 +74,7 @@ export default {
           console.log(error.message)
           this.albums = null
           this.error = error
-        })     
-      axios
-        .get('http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user='
-        +user
-        +'&api_key='
-        +process.env.VUE_APP_API_KEY
-        +'&format=json')
-        .then(response=> { 
-          console.log(response) 
-          this.recentTracks = response.data.recenttracks
-          console.log(this.recentTracks)
-        })
-        .catch((error)=> {
-          console.log(error.message)
-          this.recentTracks = null
-          this.error = error
-        })
+      })     
     },
   }
 }
@@ -83,6 +83,9 @@ export default {
 </script>
 
 <style>
+#app {
+  
+}
 #front-page {
   margin-top:10px;
   margin-bottom:7px;
