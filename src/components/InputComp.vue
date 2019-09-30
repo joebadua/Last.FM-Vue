@@ -5,7 +5,7 @@
     </section>
     <section>
       <b-input v-model.lazy="user" placeholder="Last.FM username"></b-input>
-      <b-loading :is-full-page="isFullPage" :active.sync="isLoading" :can-cancel="true"></b-loading>
+      <b-loading :is-full-page="isFullPage" :active.sync="isLoading" :can-cancel="false"></b-loading>
       </section>
   </form>
   
@@ -29,7 +29,7 @@ export default {
       this.isLoading = true;
       setTimeout(() => {
         this.isLoading = false;
-      }, 10 * 100)
+      }, 10 * 150)
     },
     handleSubmit(user) {
       this.runLoading();
@@ -42,6 +42,7 @@ export default {
 
 <style scoped>
   form {
+    font-weight: 400;
     margin-bottom: 2rem;
     text-align: center;
   }

@@ -84,9 +84,10 @@ export default {
 
 <style>
 #app {
-  
+  font-weight: 350;
 }
 #front-page {
+  font-weight: 350;
   margin-top:10px;
   margin-bottom:7px;
 }

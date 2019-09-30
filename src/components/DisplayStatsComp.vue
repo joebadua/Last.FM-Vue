@@ -29,12 +29,17 @@
           </tr>
         </div>
       </table>
-      <header><h1 id="album-list" class="title">Top albums</h1></header>
+      <b-button size="is-small" type="is-primary" id="list-button" @click="showList()">Top Albums</b-button>
+      <b-button size="is-small" type="is-primary" id="list-button">Top Tracks</b-button>
         <ol id="album-list" v-if="albums.length">
-          <li id="album-bar" v-for="album in albums"> 
+          <li id="album-bar" v-for="album in albums" v-bind:key="album.id"> 
             <img id="album-img" v-bind:src="album.image[0]['#text']"> 
               {{album.artist.name}} - {{album.name}}
-            <b-progress id="bar" type="is-danger" :value="40"></b-progress>
+            <b-progress id="bar" type="is-danger" 
+            :value="parseInt(album.playcount,10)" 
+            :max="parseInt(albums[0].playcount,10)" show-value>
+              {{album.playcount}} scrobbles
+            </b-progress>
           </li>
         </ol>`
     </section>
@@ -48,16 +53,28 @@ export default {
     user: {},
     albums: {},
     recentTracks: {},
-    error: {}
+    error: {},
+  },
+  methods: {
+    showList() {
+      console.log("inside show list")
+    }
   }
 }
 </script>
 
 <style scoped>
+  * {
+    font-weight:400;
+  }
   .title {
-    font-size: 17px;
+    font-size: 20px;
     margin-top: 10px;
     margin-bottom: 10px;
+  }
+  #list-button {
+    margin-top: 15px;
+    margin-bottom: 15px;
   }
   #album-bar {
     margin-bottom: 15px;
@@ -77,8 +94,8 @@ export default {
   }
   #picture {
     border-radius: 50%;
-    max-height: 150px;
-    max-width: 150px;
+    max-height: 200px;
+    max-width: 200px;
   }
   #username {
     text-align: center;
