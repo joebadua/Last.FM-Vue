@@ -2,8 +2,7 @@
   <div id="display-stats-comp">
     <p v-if="user==null && error.message!=null">
       <b-message type="is-warning" has-icon>
-        There was an issue. Please check username or try again:
-        <b>{{error.message}}</b>
+        There was an issue. Please check username or try again:<b id="error-message">{{error.message}}</b>
       </b-message>    
     </p>
     <p v-else-if="user.image==null">
@@ -15,8 +14,12 @@
           <tr>
             <td>
               <th>
-                <h1 id="username" class="title" v-html="user.name">{{ user.name }}</h1>
-                <img id="picture" v-bind:src="user.image[2]['#text']">
+                <h1 id="username" 
+                    class="title" 
+                    v-html="user.name">
+                    {{ user.name }}</h1>
+                <img id="picture" 
+                     v-bind:src="user.image[2]['#text']">
               </th>
               <th> 
                 <p id="playcount">Playcount: {{ user.playcount }}</p>
@@ -29,19 +32,59 @@
           </tr>
         </div>
       </table>
-      <b-button size="is-small" type="is-primary" id="list-button" @click="showList()">Top Albums</b-button>
-      <b-button size="is-small" type="is-primary" id="list-button">Top Tracks</b-button>
-        <ol id="album-list" v-if="albums.length">
-          <li id="album-bar" v-for="album in albums" v-bind:key="album.id"> 
-            <img id="album-img" v-bind:src="album.image[0]['#text']"> 
-              {{album.artist.name}} - {{album.name}}
-            <b-progress id="bar" type="is-danger" 
-            :value="parseInt(album.playcount,10)" 
-            :max="parseInt(albums[0].playcount,10)" show-value>
-              {{album.playcount}} scrobbles
-            </b-progress>
-          </li>
-        </ol>`
+        <div class="tabs is-centered">
+          <ul>
+            <li v-bind:class="{ 'is-active':showTopAlbums }"
+                v-on:click="showTopAlbumsFunc()"><a>Top Albums</a></li>
+            <li v-bind:class="{ 'is-active':showTopArtists }"
+                v-on:click="showTopArtistsFunc()">
+                <a>Top Artists</a></li>
+            <li><a>Top Tracks</a></li>
+            <li><a>Recently Played</a></li>
+          </ul>
+        </div>
+        
+        <transition name="fade">
+          <ol id="album-list" 
+              v-show="showTopAlbums">
+            <li id="album-bar" 
+                v-for="album in albums" 
+                v-bind:key="album.id"> 
+              <img id="album-img" v-bind:src="album.image[0]['#text']"> 
+                {{album.artist.name}} - {{album.name}}
+              <b-progress id="bar" type="is-danger" 
+                          :value="parseInt(album.playcount,10)" 
+                          :max="parseInt(albums[0].playcount,10)" show-value>
+                {{album.playcount}} scrobbles
+              </b-progress>
+            </li>
+          </ol>
+        </transition>
+
+        <transition name="fade">
+          <ol id="album-list" v-show="showTopArtists">
+            <li id="album-bar" v-for="artist in artists" v-bind:key="artist.id">
+              <img id="album-img" v-bind:src="artist.image[0]['#text']">
+              {{artist.name}}
+              <b-progress id="bar" type="is-danger" 
+              :value="parseInt(artist.playcount,10)" 
+              :max="parseInt(artists[0].playcount,10)" show-value>
+                {{artist.playcount}} scrobbles
+              </b-progress>
+            </li>
+          </ol>
+        </transition>
+
+        <transition name="fade">
+          <ol v-show="showTopTracks">
+            <li v-for="recentTrack in recentTracks" v-bind:key="recentTrack.id">
+
+            </li>
+          </ol>
+        </transition>
+
+
+
     </section>
   </div>
 </template>
@@ -49,15 +92,35 @@
 <script>
 export default {
   name:'DisplayStatsComp',
+  data() {
+    return {
+      showTopAlbums: true,
+      showTopArtists: false,
+      showTopTracks: false,
+      showRP: false
+    }
+  },
   props: {
     user: {},
+    artists: {},
     albums: {},
     recentTracks: {},
     error: {},
   },
   methods: {
-    showList() {
-      console.log("inside show list")
+    showTopAlbumsFunc() {
+      console.log('topTracks=true')
+      this.showTopAlbums = true
+      this.showTopArtists = false
+      this.showTopTracks = false
+      this.showRP = false
+    },
+    showTopArtistsFunc() {
+      console.log('topArtists=true')
+      this.showTopAlbums = false
+      this.showTopArtists = true
+      this.showTopTracks = false
+      this.showRP = false
     }
   }
 }
@@ -67,10 +130,19 @@ export default {
   * {
     font-weight:400;
   }
+  .fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to {
+    opacity: 0;
+  }
   .title {
     font-size: 20px;
     margin-top: 10px;
     margin-bottom: 10px;
+  }
+  #error-message {
+    font-weight:750;
   }
   #list-button {
     margin-top: 15px;
@@ -81,6 +153,7 @@ export default {
   }
   #bar {
     position: relative;
+    /*max-width: 300px;*/
   }
   #album-list {
     text-align: left;
@@ -89,6 +162,7 @@ export default {
   }
   #playcount {
   }
+
   #album-playcount {
     text-align: right;
   }

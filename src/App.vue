@@ -2,7 +2,7 @@
   <div id="app" class="small-container">
     <h1 id ="front-page" class="title">Last.FM Stat Displayer</h1>
     <InputComp class="subtile" @add:user="getUser"/>
-    <DisplayStatsComp :user="user" :error="error" :albums="albums" :recentTracks="recentTracks"/>
+    <DisplayStatsComp :user="user" :error="error" :albums="albums" :artists="artists" :recentTracks="recentTracks"/>
   </div>
 </template>
 
@@ -21,6 +21,7 @@ export default {
     return {
         user: '',
         albums: '',
+        artists: '',
         recentTracks: '',
         error: {}
       }
@@ -35,7 +36,7 @@ export default {
         +process.env.VUE_APP_API_KEY
         +'&format=json')
         .then(response=> { 
-          console.log(response) 
+          console.log("recent tracks:") 
           this.recentTracks = response.data.recenttracks
           console.log(this.recentTracks)
         })
@@ -51,7 +52,7 @@ export default {
         +process.env.VUE_APP_API_KEY
         +'&format=json')
         .then(response=> { 
-          console.log(response) 
+          console.log("user info:") 
           this.user = response.data.user
         })
         .catch((error)=> {
@@ -66,7 +67,7 @@ export default {
         +process.env.VUE_APP_API_KEY
         +'&format=json')
         .then(response=> { 
-          console.log(response) 
+          console.log("top ablums:") 
           this.albums = response.data.topalbums.album
           console.log(this.albums)
         })
@@ -74,7 +75,23 @@ export default {
           console.log(error.message)
           this.albums = null
           this.error = error
-      })     
+      })
+      axios
+        .get('http://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user='
+        +user
+        +'&api_key='
+        +process.env.VUE_APP_API_KEY
+        +'&format=json')
+        .then(response=> { 
+          console.log("top artists:")
+          this.artists = response.data.topartists.artist
+          console.log(this.artists)
+        })
+        .catch((error)=> {
+          console.log(error.message)
+          this.artists = null
+          this.error = error
+      })      
     },
   }
 }
