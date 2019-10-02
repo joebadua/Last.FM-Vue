@@ -2,7 +2,7 @@
   <div id="app" class="small-container">
     <h1 id ="front-page" class="title">Last.FM Stat Displayer</h1>
     <InputComp class="subtile" @add:user="getUser"/>
-    <DisplayStatsComp :user="user" :error="error" :albums="albums" :artists="artists" :recentTracks="recentTracks"/>
+    <DisplayStatsComp :user="user" :error="error" :albums="albums" :artists="artists" :topTracks="topTracks" :recentTracks="recentTracks"/>
   </div>
 </template>
 
@@ -23,6 +23,7 @@ export default {
         albums: '',
         artists: '',
         recentTracks: '',
+        topTracks: '',
         error: {}
       }
     },
@@ -37,7 +38,7 @@ export default {
         +'&format=json')
         .then(response=> { 
           console.log("recent tracks:") 
-          this.recentTracks = response.data.recenttracks
+          this.recentTracks = response.data.recenttracks.track
           console.log(this.recentTracks)
         })
         .catch((error)=> {
@@ -76,6 +77,22 @@ export default {
           this.albums = null
           this.error = error
       })
+      axios
+        .get('http://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user='
+        +user
+        +'&api_key='
+        +process.env.VUE_APP_API_KEY
+        +'&format=json')
+        .then(response=> { 
+          console.log("top tracks:")
+          this.topTracks = response.data.toptracks.track
+          console.log(this.topTracks)
+        })
+        .catch((error)=> {
+          console.log(error.message)
+          this.topTracks = null
+          this.error = error
+      })    
       axios
         .get('http://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user='
         +user

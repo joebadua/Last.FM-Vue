@@ -1,7 +1,7 @@
 <template>
   <div id="display-stats-comp">
     <p v-if="user==null && error.message!=null">
-      <b-message type="is-warning" has-icon>
+      <b-message type="is-warning">
         There was an issue. Please check username or try again:<b id="error-message">{{error.message}}</b>
       </b-message>    
     </p>
@@ -20,13 +20,12 @@
                     {{ user.name }}</h1>
                 <img id="picture" 
                      v-bind:src="user.image[2]['#text']">
-              </th>
-              <th> 
-                <p id="playcount">Playcount: {{ user.playcount }}</p>
+                <p id="playcount">Scrobbles: {{ user.playcount }}</p>
               </th>
               <th>
-                <p>Recently played:</p>
-                <p id="recently-played">{{recentTracks.track[0].artist['#text']}} - {{recentTracks.track[0].name}}</p>
+                <p v-if="recentTracks[0]['@attr']">NOW LISTENING:</p>
+                <p v-else> recently played track:</p>
+                  <p id="recently-played">{{recentTracks[0].artist['#text']}} - {{recentTracks[0].name}}</p>
               </th>
             </td>
           </tr>
@@ -35,12 +34,17 @@
         <div class="tabs is-centered">
           <ul>
             <li v-bind:class="{ 'is-active':showTopAlbums }"
-                v-on:click="showTopAlbumsFunc()"><a>Top Albums</a></li>
+                v-on:click="showTopAlbumsFunc()">
+                <a>Top Albums</a></li>
             <li v-bind:class="{ 'is-active':showTopArtists }"
                 v-on:click="showTopArtistsFunc()">
                 <a>Top Artists</a></li>
-            <li><a>Top Tracks</a></li>
-            <li><a>Recently Played</a></li>
+            <li v-bind:class="{ 'is-active':showTopTracks }"
+                v-on:click="showTopTracksFunc()">
+                <a>Top Tracks</a></li>
+            <li v-bind:class="{ 'is-active':showRP }"
+                v-on:click="showRPFunc()">
+                <a>Recently Played</a></li>
           </ul>
         </div>
         
@@ -76,14 +80,27 @@
         </transition>
 
         <transition name="fade">
-          <ol v-show="showTopTracks">
-            <li v-for="recentTrack in recentTracks" v-bind:key="recentTrack.id">
-
+          <ol id="album-list" v-show="showTopTracks">
+            <li id="album-bar" v-for="track in topTracks" v-bind:key="track.id">
+              <img v-bind:src="track.image[0]['#text']">
+              {{track.artist.name}} - {{track.name}}
+              <b-progress id="bar" type="is-danger"
+              :value="parseInt(track.playcount,10)"
+              :max="parseInt(topTracks[0].playcount,10)" show-value>
+              {{track.playcount}} scrobbles
+              </b-progress>
             </li>
           </ol>
         </transition>
 
-
+        <transition name="fade">
+          <ol id="album-list" v-show="showRP">
+            <li id="album-bar" v-for="recentTrack in recentTracks" v-bind:key="recentTrack.id">
+              <img id="album-img" v-bind:src="recentTrack.image[0]['#text']">
+                {{recentTrack.artist['#text']}} - {{recentTrack.name}}
+            </li>
+          </ol>
+        </transition>
 
     </section>
   </div>
@@ -97,13 +114,15 @@ export default {
       showTopAlbums: true,
       showTopArtists: false,
       showTopTracks: false,
-      showRP: false
+      showRP: false,
+      upHere: false
     }
   },
   props: {
     user: {},
     artists: {},
     albums: {},
+    topTracks: {},
     recentTracks: {},
     error: {},
   },
@@ -121,6 +140,20 @@ export default {
       this.showTopArtists = true
       this.showTopTracks = false
       this.showRP = false
+    },
+    showTopTracksFunc() {
+      console.log('topTracks=true')
+      this.showTopAlbums = false
+      this.showTopArtists = false
+      this.showTopTracks = true
+      this.showRP = false
+    },
+    showRPFunc() {
+      console.log('RP=true')
+      this.showTopAlbums = false
+      this.showTopArtists = false
+      this.showTopTracks = false
+      this.showRP = true
     }
   }
 }
@@ -161,8 +194,8 @@ export default {
     position:relative;
   }
   #playcount {
+    text-align: center;
   }
-
   #album-playcount {
     text-align: right;
   }

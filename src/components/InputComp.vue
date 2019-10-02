@@ -17,8 +17,6 @@ export default {
   data() {
     return {
       user: '',
-      albums: '',
-      recentTracks: '',
       error: '',
       isLoading: false,
       isFullPage: true
