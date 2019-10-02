@@ -2,7 +2,7 @@
 
 My first Vue project.
 
-Currently using Vue & Buefy - In the process of adding Express for the backend
+Currently using Vue.js, Express.js. Buefy for UI.
 
 More to come.
 
