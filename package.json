@@ -5,7 +5,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "dev": "node build/dev-server.js",
+    "start": "node server.js" 
   },
   "dependencies": {
     "@bit/joshk.vue-spinners-css.circle-loader": "^1.1.1",
@@ -14,6 +16,7 @@
     "buefy": "^0.8.4",
     "core-js": "^2.6.5",
     "dotenv": "^8.1.0",
+    "express": "^4.17.1",
     "vue": "^2.6.10",
     "vue-axios": "^2.1.4",
     "vue-spinners-css": "^1.0.2"
