@@ -55,6 +55,7 @@ export default {
         .then(response=> { 
           console.log("user info:") 
           this.user = response.data.user
+          console.log(this.user)
         })
         .catch((error)=> {
           console.log(error.message)

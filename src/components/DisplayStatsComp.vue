@@ -20,10 +20,10 @@
                     {{ user.name }}</h1>
                 <img id="picture" 
                      v-bind:src="user.image[2]['#text']">
-                <p id="playcount">Scrobbles: {{ user.playcount }}</p>
+                <p id="playcount">Total Scrobbles: {{ user.playcount }}</p>
               </th>
               <th>
-                <p v-if="recentTracks[0]['@attr']">NOW LISTENING:</p>
+                <p id="now-listening" v-if="recentTracks[0]['@attr']"><RippleLoader :size="15" :color="'#906ad1'"/>NOW LISTENING:</p>
                 <p v-else> recently played track:</p>
                   <p id="recently-played">{{recentTracks[0].artist['#text']}} - {{recentTracks[0].name}}</p>
               </th>
@@ -107,8 +107,13 @@
 </template>
 
 <script>
+import { RippleLoader } from 'vue-spinners-css';
+
 export default {
   name:'DisplayStatsComp',
+  components: {
+    RippleLoader,
+  },
   data() {
     return {
       showTopAlbums: true,
@@ -173,6 +178,10 @@ export default {
     font-size: 20px;
     margin-top: 10px;
     margin-bottom: 10px;
+  }
+  #now-listening {
+    text-align: center;
+    font-weight: 700;
   }
   #error-message {
     font-weight:750;
