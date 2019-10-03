@@ -31,7 +31,7 @@ export default {
     async getUser(user) {
       console.log('inside get user ' + user)
       axios
-        .get('http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user='
+        .get('https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user='
         +user
         +'&api_key='
         +process.env.VUE_APP_API_KEY
@@ -47,7 +47,7 @@ export default {
           this.error = error
       })
       axios
-        .get('http://ws.audioscrobbler.com/2.0/?method=user.getinfo&user='
+        .get('https://ws.audioscrobbler.com/2.0/?method=user.getinfo&user='
         +user
         +'&api_key='
         +process.env.VUE_APP_API_KEY
@@ -63,7 +63,7 @@ export default {
           this.error = error
       })
       axios
-        .get('http://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user='
+        .get('https://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user='
         +user
         +'&api_key='
         +process.env.VUE_APP_API_KEY
@@ -79,7 +79,7 @@ export default {
           this.error = error
       })
       axios
-        .get('http://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user='
+        .get('https://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user='
         +user
         +'&api_key='
         +process.env.VUE_APP_API_KEY
@@ -95,7 +95,7 @@ export default {
           this.error = error
       })    
       axios
-        .get('http://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user='
+        .get('https://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user='
         +user
         +'&api_key='
         +process.env.VUE_APP_API_KEY
