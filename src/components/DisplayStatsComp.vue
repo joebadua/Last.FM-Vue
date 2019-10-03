@@ -23,7 +23,7 @@
                 <p id="playcount">Total Scrobbles: {{ user.playcount }}</p>
               </th>
               <th>
-                <p id="now-listening" v-if="recentTracks[0]['@attr']"><RippleLoader :size="15" :color="'#906ad1'"/>NOW LISTENING:</p>
+                <p id="now-listening" v-if="recentTracks[0]['@attr']">NOW LISTENING:</p>
                 <p v-else> recently played track:</p>
                   <p id="recently-played">{{recentTracks[0].artist['#text']}} - {{recentTracks[0].name}}</p>
               </th>
@@ -107,13 +107,8 @@
 </template>
 
 <script>
-import { RippleLoader } from 'vue-spinners-css';
-
 export default {
   name:'DisplayStatsComp',
-  components: {
-    RippleLoader,
-  },
   data() {
     return {
       showTopAlbums: true,
