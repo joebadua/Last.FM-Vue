@@ -11,6 +11,10 @@ sh4dowjoez
 
 Deployed to [Heroku](https://last-fm-vue.herokuapp.com) 
 
+Example: 
+
+![](images/example.png)
+
 
 
 
