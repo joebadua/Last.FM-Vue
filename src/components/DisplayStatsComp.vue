@@ -128,28 +128,24 @@ export default {
   },
   methods: {
     showTopAlbumsFunc() {
-      console.log('topTracks=true')
       this.showTopAlbums = true
       this.showTopArtists = false
       this.showTopTracks = false
       this.showRP = false
     },
     showTopArtistsFunc() {
-      console.log('topArtists=true')
       this.showTopAlbums = false
       this.showTopArtists = true
       this.showTopTracks = false
       this.showRP = false
     },
     showTopTracksFunc() {
-      console.log('topTracks=true')
       this.showTopAlbums = false
       this.showTopArtists = false
       this.showTopTracks = true
       this.showRP = false
     },
     showRPFunc() {
-      console.log('RP=true')
       this.showTopAlbums = false
       this.showTopArtists = false
       this.showTopTracks = false

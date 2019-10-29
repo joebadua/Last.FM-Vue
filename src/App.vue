@@ -37,12 +37,9 @@ export default {
         +process.env.VUE_APP_API_KEY
         +'&format=json')
         .then(response=> { 
-          console.log("recent tracks:") 
           this.recentTracks = response.data.recenttracks.track
-          console.log(this.recentTracks)
         })
         .catch((error)=> {
-          console.log(error.message)
           this.recentTracks = null
           this.error = error
       })
@@ -53,12 +50,9 @@ export default {
         +process.env.VUE_APP_API_KEY
         +'&format=json')
         .then(response=> { 
-          console.log("user info:") 
           this.user = response.data.user
-          console.log(this.user)
         })
         .catch((error)=> {
-          console.log(error.message)
           this.user = null
           this.error = error
       })
@@ -69,12 +63,9 @@ export default {
         +process.env.VUE_APP_API_KEY
         +'&format=json')
         .then(response=> { 
-          console.log("top ablums:") 
           this.albums = response.data.topalbums.album
-          console.log(this.albums)
         })
         .catch((error)=> {
-          console.log(error.message)
           this.albums = null
           this.error = error
       })
@@ -85,12 +76,9 @@ export default {
         +process.env.VUE_APP_API_KEY
         +'&format=json')
         .then(response=> { 
-          console.log("top tracks:")
           this.topTracks = response.data.toptracks.track
-          console.log(this.topTracks)
         })
         .catch((error)=> {
-          console.log(error.message)
           this.topTracks = null
           this.error = error
       })    
@@ -101,12 +89,9 @@ export default {
         +process.env.VUE_APP_API_KEY
         +'&format=json')
         .then(response=> { 
-          console.log("top artists:")
           this.artists = response.data.topartists.artist
-          console.log(this.artists)
         })
         .catch((error)=> {
-          console.log(error.message)
           this.artists = null
           this.error = error
       })      
