@@ -9,7 +9,7 @@ Any Last.FM username entered will have its stats displayed.
 sh4dowjoez
 ```
 
-Deployed to [Heroku](https://last-fm-vue.herokuapp.com) 
+Hosted on [Heroku](https://last-fm-vue.herokuapp.com) 
 
 ## Example of how website looks: 
 
