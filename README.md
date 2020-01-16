@@ -11,7 +11,7 @@ Any Last.FM username entered will have its stats displayed.
 sh4dowjoez
 ```
 
-Hosted on [Heroku](https://last-fm-vue.herokuapp.com) 
+Hosted on [Heroku](https://last-fm-vue.herokuapp.com) (this will take awhile to load as the server needs to be woken up).
 
 ## Example of how website looks: 
 
